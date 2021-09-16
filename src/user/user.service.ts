@@ -16,15 +16,15 @@ export class UserService {
     }).save();
   }
 
-  async find(params: CreateUserDto): Promise<User[]> {
+  async find(): Promise<User[]> {
     return await this.userModel.find({});
   }
 
-  async update(email: string, params: UpdateUserDto) {
-    return this.userModel.updateOne({ email: email }, params).exec();
+  async update(id: string, params: UpdateUserDto): Promise<User> {
+    return await this.userModel.findByIdAndUpdate(id, params, { new: true });
   }
 
-  async delete(email: string) {
-    return this.userModel.deleteOne({ email: email });
+  async delete(id: string): Promise<User> {
+    return this.userModel.findByIdAndRemove(id);
   }
 }

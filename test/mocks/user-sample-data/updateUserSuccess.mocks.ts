@@ -1,7 +1,13 @@
 export const updateByEmail = {
-  email: 'test@gmail.com',
+  id: '6142037e68f41cc0397923c8',
 };
 
-export const updateUserSuccess = {
+export const updateUserDataSuccess = {
   username: 'username_test_update_success',
+};
+
+export const updateUserSuccessResult = {
+  _id: expect.any(String),
+  email: 'test@gmail.com',
+  ...updateUserDataSuccess,
 };

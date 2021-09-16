@@ -8,7 +8,8 @@ import {
 } from '../../test/mocks/user-sample-data/createUserFailed.mocks';
 import {
   updateByEmail,
-  updateUserSuccess,
+  updateUserDataSuccess,
+  updateUserSuccessResult,
 } from '../../test/mocks/user-sample-data/updateUserSuccess.mocks';
 import { deleteByEmail } from '../../test/mocks/user-sample-data/deleteUserSuccess.mocks';
 
@@ -43,18 +44,21 @@ describe('UserService', () => {
   });
 
   it('should be find all record', async () => {
-    expect(await service.find(createUserSuccess)).toEqual(createUserSuccess);
+    expect(await service.find()).toEqual({
+      id: expect.any(String),
+      email: expect.any(String),
+      username: expect.any(String),
+    });
   });
   it('should be update record', async () => {
     expect(
-      await service.update(updateByEmail.email, updateUserSuccess),
+      await service.update(updateByEmail.id, updateUserDataSuccess),
     ).toEqual({
-      id: Date.now(),
-      ...updateByEmail,
-      ...updateUserSuccess,
+      _id: expect.any(String),
+      ...updateUserSuccessResult,
     });
   });
   it('should be delete record', async () => {
-    expect(await service.delete(deleteByEmail.email)).toBe(deleteByEmail.email);
+    expect(await service.delete(deleteByEmail.id)).toBe(deleteByEmail.id);
   });
 });
