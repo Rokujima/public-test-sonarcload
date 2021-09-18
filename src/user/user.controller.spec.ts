@@ -1,13 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { createUserSuccess } from '../../test/mocks/user-sample-data/createUserSuccess.mocks';
-import { mockUserController } from '../../test/mocks/service/mockUserController.mocks';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import {
-  updateByEmail,
-  updateUserDataSuccess,
-  updateUserSuccessResult,
-} from '../../test/mocks/user-sample-data/updateUserSuccess.mocks';
+import { mockUserService } from '../../test/mocks/service/mockUserService.mocks';
+import { UserCreateRequestSuccess } from '../../test/mocks/user-sample-data/user-create-sample-success.mocks';
+import { UserUpdateRequestSuccessResult } from '../../test/mocks/user-sample-data/user-update-sample-success.mocks';
 
 describe('UserController', () => {
   let controller: UserController;
@@ -18,7 +14,7 @@ describe('UserController', () => {
       providers: [UserService],
     })
       .overrideProvider(UserService)
-      .useValue(mockUserController)
+      .useValue(mockUserService)
       .compile();
 
     controller = module.get<UserController>(UserController);
@@ -28,37 +24,36 @@ describe('UserController', () => {
     expect(controller).toBeDefined();
   });
   it('should be create new users', async () => {
-    expect(controller.create(createUserSuccess)).toEqual({
-      _id: expect.any(String),
-      ...createUserSuccess,
-    });
+    expect(controller.create(UserCreateRequestSuccess)).toEqual(
+      UserCreateRequestSuccess,
+    );
 
-    expect(mockUserController.create).toBeCalledWith(createUserSuccess);
+    expect(mockUserService.create).toBeCalledWith(UserCreateRequestSuccess);
   });
   it('should be find list users ', async () => {
-    expect(controller.find()).toEqual({
-      _id: expect.any(String),
-      ...createUserSuccess,
-    });
+    expect(await controller.find()).toEqual(UserUpdateRequestSuccessResult);
 
-    expect(mockUserController.find).toBeCalled();
+    expect(mockUserService.find).toBeCalled();
   });
   it('should be update users', async () => {
-    controller.update(updateByEmail.id, updateUserDataSuccess).then((data) => {
-      expect(data).toEqual({
-        _id: expect.any(String),
-        ...updateUserSuccessResult,
-      });
+    controller
+      .update(UserUpdateRequestSuccessResult.id, UserCreateRequestSuccess)
+      .then((data) => {
+        expect(data).toEqual(UserUpdateRequestSuccessResult);
 
-      expect(mockUserController.update).toBeCalledWith(
-        updateByEmail.id,
-        updateUserDataSuccess,
-      );
-    });
+        expect(mockUserService.update).toBeCalledWith(
+          UserUpdateRequestSuccessResult.id,
+          UserCreateRequestSuccess,
+        );
+      });
   });
   it('should be delete users', async () => {
-    expect(controller.delete(updateByEmail.id)).toEqual(updateByEmail.id);
+    expect(controller.delete(UserUpdateRequestSuccessResult.id)).toEqual(
+      UserUpdateRequestSuccessResult.id,
+    );
 
-    expect(mockUserController.delete).toBeCalledWith(updateByEmail.id);
+    expect(mockUserService.delete).toBeCalledWith(
+      UserUpdateRequestSuccessResult.id,
+    );
   });
 });

@@ -1,9 +1,14 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
 export class createTaskDto {
-  readonly title: string;
+  @ApiProperty()
+  title: string;
+  @ApiProperty()
   @Type(() => Date)
-  readonly date: string;
-  readonly description: string;
-  readonly user_id: string;
+  date: string;
+  @ApiProperty()
+  description: string;
+  @ApiProperty()
+  user_id: string;
 }

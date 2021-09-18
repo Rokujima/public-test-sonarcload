@@ -1,17 +1,14 @@
-import {
-  createTaskResultSuccess,
-  createTaskDataSuccess,
-} from '../task-sample-data/createTask.mocks';
+import { TaskCreateRequestSuccess } from '../task-sample-data/task-create-sample-success.mocks';
 
 export const mockTaskService = {
   create: jest.fn().mockImplementation((dto) => Promise.resolve(dto)),
   findAll: jest
     .fn()
-    .mockImplementation(() => Promise.resolve([createTaskResultSuccess])),
+    .mockImplementation(() => Promise.resolve([TaskCreateRequestSuccess])),
   find: jest
     .fn()
     .mockImplementation((id) =>
-      Promise.resolve({ id, ...createTaskDataSuccess }),
+      Promise.resolve({ id, ...TaskCreateRequestSuccess }),
     ),
   update: jest
     .fn()
