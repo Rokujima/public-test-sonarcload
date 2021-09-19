@@ -1,10 +1,7 @@
-import { updateUserSuccessResult } from '../user-sample-data/updateUserSuccess.mocks';
+import { UserUpdateRequestSuccessResult } from '../user-sample-data/user-update-sample-success.mocks';
 
 export const mockUserService = {
-  create: jest.fn().mockImplementation((dto) => dto),
-  save: jest
-    .fn()
-    .mockImplementation((user) => Promise.resolve({ id: String, ...user })),
+  create: jest.fn().mockImplementation((dto) => Promise.resolve(dto)),
   find: jest.fn().mockImplementation(() =>
     Promise.resolve({
       id: expect.any(String),
@@ -12,15 +9,11 @@ export const mockUserService = {
       username: expect.any(String),
     }),
   ),
-  updateOne: jest
-    .fn()
-    .mockImplementation((email, dto) =>
-      Promise.resolve({ id: expect.any(String), ...dto, email }),
-    ),
-  delete: jest.fn().mockImplementation((email) => email),
-  update: jest
-    .fn()
-    .mockImplementation(() =>
-      Promise.resolve({ _id: expect.any(String), ...updateUserSuccessResult }),
-    ),
+  delete: jest.fn().mockImplementation((id) => Promise.resolve(id)),
+  update: jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      id: expect.any(String),
+      ...UserUpdateRequestSuccessResult,
+    }),
+  ),
 };
