@@ -4,10 +4,13 @@ import {
   Delete,
   Get,
   HttpException,
+  HttpStatus,
   Param,
   Post,
   Put,
   Query,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import {
   ApiBody,
@@ -28,19 +31,17 @@ export class UserController {
   @Post()
   @ApiBody({ type: CreateUserDto })
   @ApiOperation({ summary: 'create users' })
-  create(@Body() createUserDto: CreateUserDto): Promise<IUser> {
-    const userCreate = this.service.create(createUserDto);
-    if (!userCreate) {
+  async create(@Body() createUserDto: CreateUserDto): Promise<IUser> {
+    try {
+      return await this.service.create(createUserDto);
+    } catch (error) {
       throw new HttpException(
         {
-          message: userCreate,
-          data: null,
-          errors: userCreate,
+          message: error.message,
         },
-        500,
+        HttpStatus.BAD_REQUEST,
       );
     }
-    return userCreate;
   }
   @Get()
   @ApiOperation({ summary: 'list users' })
@@ -51,16 +52,39 @@ export class UserController {
   @ApiQuery({ name: 'id', type: 'string' })
   @ApiBody({ type: UpdateUserDto })
   @ApiOperation({ summary: 'update users' })
-  update(
+  @UsePipes(
+    new ValidationPipe({
+      whitelist: true,
+    }),
+  )
+  async update(
     @Query('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<IUser> {
-    return this.service.update(id, updateUserDto);
+    try {
+      return await this.service.update(id, updateUserDto);
+    } catch (error) {
+      throw new HttpException(
+        {
+          message: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
   @Delete(':id')
   @ApiParam({ name: 'id', type: 'string' })
   @ApiOperation({ summary: 'delete users' })
-  delete(@Param('id') id: string): Promise<IUser> {
-    return this.service.delete(id);
+  async delete(@Param('id') id: string): Promise<IUser> {
+    try {
+      return await this.service.delete(id);
+    } catch (error) {
+      throw new HttpException(
+        {
+          message: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }

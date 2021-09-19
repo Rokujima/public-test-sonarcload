@@ -32,7 +32,7 @@ describe('Users & Task (e2e)', () => {
       .post('/user')
       .set('Accept', 'application/json')
       .send(UserCreateRequestSuccess)
-      .expect(500);
+      .expect(400);
   });
 
   it('/user (PUT) - should update user', () => {
@@ -78,7 +78,7 @@ describe('Users & Task (e2e)', () => {
     return request(app.getHttpServer())
       .post('/task')
       .send(TaskCreateRequestSuccess)
-      .expect(500);
+      .expect(400);
   });
 
   it('/task (GET) - should get task users', () => {
@@ -92,7 +92,7 @@ describe('Users & Task (e2e)', () => {
     return request(app.getHttpServer())
       .get('/task')
       .query({ id: 'adsadas' })
-      .expect(500);
+      .expect(400);
   });
 
   it('/task/list (GET) - should get list tasks', () => {
@@ -120,7 +120,7 @@ describe('Users & Task (e2e)', () => {
     return request(app.getHttpServer())
       .delete('/task/asdasdasdasdjkas')
       .send(TaskCreateRequestSuccess)
-      .expect(500);
+      .expect(400);
   });
 
   it('/task (DELETE) - should delete task', () => {
@@ -130,7 +130,7 @@ describe('Users & Task (e2e)', () => {
   it('/user (DELETE) - should delete user error', async () => {
     return await request(app.getHttpServer())
       .delete('/user/asdsadasd')
-      .expect(500);
+      .expect(400);
   });
 
   it('/user (DELETE) - should delete user', async () => {

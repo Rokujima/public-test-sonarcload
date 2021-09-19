@@ -24,7 +24,7 @@ describe('UserController', () => {
     expect(controller).toBeDefined();
   });
   it('should be create new users', async () => {
-    expect(controller.create(UserCreateRequestSuccess)).toEqual(
+    expect(await controller.create(UserCreateRequestSuccess)).toEqual(
       UserCreateRequestSuccess,
     );
 
@@ -48,7 +48,7 @@ describe('UserController', () => {
       });
   });
   it('should be delete users', async () => {
-    expect(controller.delete(UserUpdateRequestSuccessResult.id)).toEqual(
+    expect(await controller.delete(UserUpdateRequestSuccessResult.id)).toEqual(
       UserUpdateRequestSuccessResult.id,
     );
 

@@ -3,12 +3,12 @@ import { Type } from 'class-transformer';
 
 export class createTaskDto {
   @ApiProperty()
-  title: string;
+  readonly title: string;
   @ApiProperty()
   @Type(() => Date)
-  date: string;
+  readonly date: string;
   @ApiProperty()
-  description: string;
+  readonly description: string;
   @ApiProperty()
-  user_id: string;
+  readonly user_id: string;
 }
