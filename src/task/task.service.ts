@@ -15,7 +15,7 @@ export class TaskService {
     return new this.taskModel(createTaskDto).save();
   }
   async find(id: string): Promise<Task> {
-    return await this.taskModel.findById(id);
+    return this.taskModel.findById(id);
   }
   async findAll(): Promise<Task[]> {
     return this.taskModel.find({});
