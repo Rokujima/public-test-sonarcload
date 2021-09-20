@@ -128,14 +128,10 @@ describe('Users & Task (e2e)', () => {
   });
 
   it('/user (DELETE) - should delete user error', async () => {
-    return await request(app.getHttpServer())
-      .delete('/user/asdsadasd')
-      .expect(400);
+    return request(app.getHttpServer()).delete('/user/asdsadasd').expect(400);
   });
 
   it('/user (DELETE) - should delete user', async () => {
-    return await request(app.getHttpServer())
-      .delete(`/user/${userId}`)
-      .expect(200);
+    return request(app.getHttpServer()).delete(`/user/${userId}`).expect(200);
   });
 });

@@ -20,8 +20,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Task } from 'src/schemas/task.schema';
-import { createTaskDto } from './dto/create-task.dto';
-import { updateTaskDto } from './dto/update-task.dto';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskService } from './task.service';
 
 @ApiTags('Task')
@@ -58,11 +58,11 @@ export class TaskController {
     }
   }
   @Post()
-  @ApiBody({ type: createTaskDto })
+  @ApiBody({ type: CreateTaskDto })
   @ApiOperation({ summary: 'create task' })
-  async create(@Body() CreateTaskDto: createTaskDto): Promise<Task> {
+  async create(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
     try {
-      return await this.taskService.create(CreateTaskDto);
+      return await this.taskService.create(createTaskDto);
     } catch (error) {
       throw new HttpException(
         {
@@ -74,14 +74,14 @@ export class TaskController {
   }
   @Put(':id')
   @ApiParam({ name: 'id', type: 'string' })
-  @ApiBody({ type: updateTaskDto })
+  @ApiBody({ type: UpdateTaskDto })
   @ApiOperation({ summary: 'update task' })
   @UsePipes(
     new ValidationPipe({
       whitelist: true,
     }),
   )
-  async update(@Param('id') id: string, params: updateTaskDto): Promise<Task> {
+  async update(@Param('id') id: string, params: UpdateTaskDto): Promise<Task> {
     try {
       return await this.taskService.update(id, params);
     } catch (error) {
